@@ -9,7 +9,7 @@ import { Post } from '@nestjs/common/decorators';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UserNameValidationPipe } from './pipes/user.name.validation.pipe';
 import { UsersService } from './users.service';
-import * as bcrypt from 'bcryptjs'
+import * as bcrypt from 'bcryptjs';
 
 @Controller('users')
 export class UsersController {
@@ -20,9 +20,17 @@ export class UsersController {
   async createUser(
     @Body(UserNameValidationPipe) data: CreateUserDto,
   ): Promise<string> {
-    const salt = await bcrypt.genSalt()
-    const hashedPassword = await bcrypt.hash(data.password, salt)
-    const create = await this.usersService.createUser(data.name, hashedPassword);
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(data.password, salt);
+    const create = await this.usersService.createUser(
+      data.name,
+      hashedPassword,
+    );
     return create;
+  }
+
+  @Post('/auth/login')
+  async login(@Body() data: CreateUserDto):Promise<void> {
+    const login = await this.usersService.login(data)
   }
 }
