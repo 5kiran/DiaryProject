@@ -20,17 +20,13 @@ export class UsersController {
   async createUser(
     @Body(UserNameValidationPipe) data: CreateUserDto,
   ): Promise<string> {
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(data.password, salt);
-    const create = await this.usersService.createUser(
-      data.name,
-      hashedPassword,
-    );
+    const create = await this.usersService.createUser(data);
     return create;
   }
 
   @Post('/auth/login')
-  async login(@Body() data: CreateUserDto):Promise<void> {
-    const login = await this.usersService.login(data)
+  async login(@Body() data: CreateUserDto): Promise<string> {
+    const login = await this.usersService.login(data);
+    return login
   }
 }
