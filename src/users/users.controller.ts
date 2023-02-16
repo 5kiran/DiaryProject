@@ -25,7 +25,7 @@ export class UsersController {
   }
 
   @Post('/auth/login')
-  async login(@Body() data: CreateUserDto): Promise<string> {
+  async login(@Body() data: CreateUserDto): Promise<object> {
     const login = await this.usersService.login(data);
     return login
   }
