@@ -6,10 +6,10 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Post } from '@nestjs/common/decorators';
-import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UserNameValidationPipe } from './pipes/user.name.validation.pipe';
 import { UsersService } from './users.service';
+import * as bcrypt from 'bcryptjs'
 
 @Controller('users')
 export class UsersController {
@@ -20,7 +20,9 @@ export class UsersController {
   async createUser(
     @Body(UserNameValidationPipe) data: CreateUserDto,
   ): Promise<string> {
-    const create = await this.usersService.createUser(data);
+    const salt = await bcrypt.genSalt()
+    const hashedPassword = await bcrypt.hash(data.password, salt)
+    const create = await this.usersService.createUser(data.name, hashedPassword);
     return create;
   }
 }

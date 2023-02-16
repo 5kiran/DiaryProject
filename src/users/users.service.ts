@@ -16,18 +16,17 @@ export class UsersService {
     private usersRepository: Repository<Users>,
   ) {}
 
-  async createUser(data: CreateUserDto) {
+  async createUser(name, password) {
     const find = await this.usersRepository.findOne({
-      where: { name: data.name },
+      where: { name },
     });
     if (find) {
       throw new ConflictException('너 누구니?');
     }
     this.usersRepository.insert({
-      name: data.name,
-      password: data.password,
+      name,
+      password,
     });
-
     return '가입 성공';
   }
 }
