@@ -1,5 +1,12 @@
-import { Body, Controller, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  InternalServerErrorException,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { Post } from '@nestjs/common/decorators';
+import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UserNameValidationPipe } from './pipes/user.name.validation.pipe';
 import { UsersService } from './users.service';
@@ -10,9 +17,10 @@ export class UsersController {
 
   //회원가입 API
   @Post('/auth/signup')
-  async createUser(@Body(UserNameValidationPipe) data: CreateUserDto): Promise<string> {
-    const create = this.usersService.createUser(data);
-
-    return '가입 성공';
+  async createUser(
+    @Body(UserNameValidationPipe) data: CreateUserDto,
+  ): Promise<string> {
+    const create = await this.usersService.createUser(data);
+    return create;
   }
 }

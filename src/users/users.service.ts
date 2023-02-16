@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { InternalServerErrorException } from '@nestjs/common/exceptions';
+import {
+  BadRequestException,
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/entities/Users';
 import { Repository } from 'typeorm';
@@ -13,15 +17,17 @@ export class UsersService {
   ) {}
 
   async createUser(data: CreateUserDto) {
-    try {
-      const user = await this.usersRepository.create({
-        name: data.name,
-        password: data.password,
-      });
-
-      await this.usersRepository.save(user);
-    } catch (error) {
-      throw new InternalServerErrorException();
+    const find = await this.usersRepository.findOne({
+      where: { name: data.name },
+    });
+    if (find) {
+      throw new ConflictException('너 누구니?');
     }
+    this.usersRepository.insert({
+      name: data.name,
+      password: data.password,
+    });
+
+    return '가입 성공';
   }
 }

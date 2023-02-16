@@ -7,7 +7,7 @@ export class UserNameValidationPipe implements PipeTransform {
   transform(value: CreateUserDto) {
     const name = value.name;
     if (this.valueNameValid(name)) {
-      throw new BadRequestException(`우리가 누구? xx,xx`);
+      throw new BadRequestException(`너는 나의 xx야`);
     }
     return value;
   }
