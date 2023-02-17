@@ -8,6 +8,7 @@ import { CreateUserDto } from './dto/create.user.dto';
 import * as bcrypt from 'bcryptjs';
 import { UnauthorizedException } from '@nestjs/common/exceptions/unauthorized.exception';
 import { JwtService } from '@nestjs/jwt/dist';
+import { JwtPayload } from './interface/jwt.payload';
 
 @Injectable()
 export class UsersService {
@@ -43,9 +44,8 @@ export class UsersService {
     if (!(await bcrypt.compare(data.password, findUser.password))) {
       throw new UnauthorizedException('Login Failed');
     }
-    const payload = { name : data.name }
+    const payload : JwtPayload = { name : data.name }
     const accessToken = await this.jwtService.sign(payload)
-
     return { accessToken };
   }
 }
