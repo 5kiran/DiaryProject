@@ -6,16 +6,12 @@ import { Users } from 'src/entities/Users';
 import { JwtStrategy } from './auth/auth.strategy';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
+import { JwtConfig } from 'src/configs/jwt.config';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: '5kiran',
-      signOptions: {
-        expiresIn: 3600,
-      },
-    }),
+    JwtModule.registerAsync({useClass : JwtConfig}),
     TypeOrmModule.forFeature([Users]),
   ],
   controllers: [UsersController],
