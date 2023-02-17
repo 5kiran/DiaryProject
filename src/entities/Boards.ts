@@ -11,6 +11,9 @@ export class Boards {
   @Column()
   content: string
 
+  @Column({default:null})
+  image: string | null
+
   @CreateDateColumn()
   createdAt : Date
   
@@ -19,4 +22,7 @@ export class Boards {
 
   @DeleteDateColumn()
   deletedAt: Date|null
+
+  @Column()
+  writeName : string
 }

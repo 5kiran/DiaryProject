@@ -1,16 +1,25 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Req } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
-import { Get } from '@nestjs/common/decorators/http/request-mapping.decorator';
+import { Body, Get, Post } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
 import { BoardsService } from './boards.service';
+import { CreateBoardDto } from './dto/create.board.dto';
+import { Boards } from 'src/entities/Boards';
 
 @Controller('boards')
 export class BoardsController {
-  constructor(private readonly boardsService : BoardsService){}
-  
+  constructor(private readonly boardsService: BoardsService) {}
+
   @Get()
   @UseGuards(AuthGuard())
-  async getAllBoards(){
-    return this.boardsService.getAllBoards()
+  async getAllBoards(): Promise<Boards[]> {
+    return await this.boardsService.getAllBoards();
+  }
+
+  @Post()
+  @UseGuards(AuthGuard())
+  createBoard(@Req() req, @Body() data: CreateBoardDto): void {
+    const userName = req.user.name;
+    this.boardsService.createBoard(userName, data);
   }
 }
