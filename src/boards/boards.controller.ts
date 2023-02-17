@@ -5,6 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create.board.dto';
 import { Boards } from 'src/entities/Boards';
+import { getAllBoards } from './interface/get.all.board';
 
 @Controller('boards')
 export class BoardsController {
@@ -12,7 +13,7 @@ export class BoardsController {
 
   @Get()
   @UseGuards(AuthGuard())
-  async getAllBoards(): Promise<Boards[]> {
+  async getAllBoards(): Promise<getAllBoards[]> {
     return await this.boardsService.getAllBoards();
   }
 

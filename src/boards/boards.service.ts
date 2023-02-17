@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Boards } from 'src/entities/Boards';
 import { Repository } from 'typeorm';
 import { CreateBoardDto } from './dto/create.board.dto';
+import { getAllBoards } from './interface/get.all.board';
 
 @Injectable()
 export class BoardsService {
@@ -12,7 +13,16 @@ export class BoardsService {
   ) {}
 
   async getAllBoards() {
-    return await this.boardsRepository.find();
+    const boards = await this.boardsRepository.find({
+      select: ['id', 'title', 'createdAt', 'writeName'],
+    });
+    const timeSetBoards : getAllBoards[] = await boards.map((element) => ({
+      id: element.id,
+      title: element.title,
+      createAt: element.createdAt.toLocaleString(),
+      writeName: element.writeName,
+    }));
+    return timeSetBoards
   }
 
   createBoard(userName, data: CreateBoardDto) {
