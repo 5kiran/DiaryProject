@@ -1,6 +1,6 @@
 export interface getAllBoards {
   id: number
   title: string
-  createAt: string
+  createdAt: Date
   writeName: string
 }

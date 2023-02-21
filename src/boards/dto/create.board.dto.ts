@@ -12,4 +12,8 @@ export class CreateBoardDto {
   @IsOptional()
   @IsString()
   image: string | null
+
+  @IsOptional()
+  @IsString()
+  createdAt: string
 }

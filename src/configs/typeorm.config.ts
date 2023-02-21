@@ -11,13 +11,15 @@ export class TypeOrmConfig implements TypeOrmOptionsFactory {
     return {
       type: 'mysql',
       host: this.configService.get<string>('DATABASE_HOST'),
-      port:this.configService.get<number>('DATABASE_PORT'),
+      port: this.configService.get<number>('DATABASE_PORT'),
       username: this.configService.get<string>('DATABASE_USERNAME'),
       password: this.configService.get<string>('DATABASE_PASSWORD'),
       database: this.configService.get<string>('DATABASE_DATABASE'),
-      entities: [Users,Boards],
+      entities: [Users, Boards],
       synchronize: true,
-      logging: true
+      logging: false,
+      timezone: 'z',
+      charset: 'utf8mb4',
     };
   }
 }
