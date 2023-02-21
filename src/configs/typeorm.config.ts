@@ -18,7 +18,7 @@ export class TypeOrmConfig implements TypeOrmOptionsFactory {
       entities: [Users, Boards],
       synchronize: true,
       logging: false,
-      timezone: 'z',
+      timezone: 'local',
       charset: 'utf8mb4',
     };
   }

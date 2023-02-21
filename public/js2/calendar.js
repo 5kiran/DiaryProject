@@ -22,6 +22,7 @@
       nowIndicator: true, // 현재 시간 마크
       dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
       locale: 'ko', // 한국어 설정
+      timeZone: 'local', // 시간설정 'local' 가능!
       eventAdd: function (obj) {
         // 이벤트가 추가되면 발생하는 이벤트
         console.log(obj);
@@ -44,18 +45,23 @@
             start: arg.start,
             end: arg.end,
             allDay: arg.allDay,
-            color: "purple"
+            color: 'purple',
           });
         }
         calendar.unselect();
       },
       // 이벤트
       events: function (info, success, fail) {
-        fetch(`/boards/${info.startStr}/${info.endStr}`)
-          .then((res) => res.json())
-          .then((result) => {
+        $.ajax({
+          type: 'GET',
+          url: `/boards/${info.startStr}/${info.endStr}`,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          data: {},
+          success: function (response) {
             let events = [];
-            result.forEach((el) => {
+            response.forEach((el) => {
               if (el.writeName === '모찌') {
                 events.push({
                   title: `📝${el.title}`,
@@ -67,13 +73,19 @@
                 events.push({
                   title: `📝${el.title}`,
                   start: `${el.createdAt}`,
-                  allDay: `${el.createdAt.allDay}`,
+                  allDay: `${el.createdAt}`,
                   color: 'skyblue',
                 });
               }
             });
             success(events);
-          });
+          },
+          error: function (error) {
+            if(error.status === 401) {
+              return window.location.replace('/login')
+            }
+          },
+        });
       },
     });
     // 캘린더 랜더링

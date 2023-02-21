@@ -11,15 +11,15 @@ export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
   @Get('/:start/:end')
-  // @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard())
   async getAllBoards(@Param() data): Promise<getAllBoards[]> {
     return await this.boardsService.getAllBoards(data);
   }
 
   @Post()
-  // @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard())
   createBoard(@Req() req, @Body() data: CreateBoardDto): void {
-    // const userName = req.user.name;
-    this.boardsService.createBoard('모찌', data);
+    const userName = req.user.name;
+    this.boardsService.createBoard(userName, data);
   }
 }
