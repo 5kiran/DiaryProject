@@ -54,7 +54,7 @@
       events: function (info, success, fail) {
         $.ajax({
           type: 'GET',
-          url: `/boards/${info.startStr}/${info.endStr}`,
+          url: `/boards/all/${info.startStr}/${info.endStr}`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -62,12 +62,14 @@
           success: function (response) {
             let events = [];
             response.forEach((el) => {
+              console.log(el)
               if (el.writeName === '모찌') {
                 events.push({
                   title: `📝${el.title}`,
                   start: `${el.createdAt}`,
                   allDay: `${el.createdAt.allDay}`,
                   color: 'hotPink',
+                  url : `/diary?id=${el.id}`
                 });
               } else {
                 events.push({
@@ -75,6 +77,7 @@
                   start: `${el.createdAt}`,
                   allDay: `${el.createdAt}`,
                   color: 'skyblue',
+                  url : `/diary?id=${el.id}`
                 });
               }
             });

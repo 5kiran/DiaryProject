@@ -42,4 +42,9 @@ export class BoardsService {
       createdAt: data.createdAt
     });
   }
+
+  async getOneBoard(id){
+    const article = await this.boardsRepository.findOneBy({id})
+    return article
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Render, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Render, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
@@ -22,7 +22,8 @@ export class AppController {
 
   @Get('diary')
   @Render('diary')
-  diary() {}
+  diary() {
+  }
 
   @Get('login')
   @Render('login')

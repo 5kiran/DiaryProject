@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PicturesModule } from './pictures/pictures.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AppService } from './app.service';
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfig }),
     UsersModule,
     BoardsModule,
+    PicturesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -10,7 +10,7 @@ import { getAllBoards } from './interface/get.all.board';
 export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
-  @Get('/:start/:end')
+  @Get('all/:start/:end')
   @UseGuards(AuthGuard())
   async getAllBoards(@Param() data): Promise<getAllBoards[]> {
     return await this.boardsService.getAllBoards(data);
@@ -21,5 +21,12 @@ export class BoardsController {
   createBoard(@Req() req, @Body() data: CreateBoardDto): void {
     const userName = req.user.name;
     this.boardsService.createBoard(userName, data);
+  }
+
+  @Get('detail/:id')
+  @UseGuards(AuthGuard())
+  async getOneBoard(@Param('id') id : number){
+    const article = await this.boardsService.getOneBoard(id)
+    return article
   }
 }

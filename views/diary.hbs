@@ -1,0 +1,62 @@
+<!-- /*
+* Template Name: Style
+* Template Author: Untree.co
+* Tempalte URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Untree.co">
+  <link rel="shortcut icon" href="favicon.png">
+
+  <meta name="description" content="" />
+  <meta name="keywords" content="free template, bootstrap, bootstrap4" />
+  {{>link}}
+  <title>모찌와 만두</title>
+</head>
+<body>
+  <div class="lines-wrap">
+    <div class="lines-inner">
+      <div class="lines"></div>
+    </div>
+  </div>
+  <!-- END lines -->
+  <!-- Nav Bar -->
+  {{>header}}
+  <!-- Nav Bar End-->
+
+  <div class="custom-hero">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <h1 class="hero-heading">Diary</h1>
+          <div  class="line js-line mx-auto mb-3 my-3"></div>
+          <p class="sub-text" id="info"><span class="mx-3">&bullet;</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="site-section">
+    <div class="container article">
+      <div class="row justify-content-center align-items-stretch">
+
+        <div class="col-lg-8 order-lg-2 px-lg-5">
+          <h1 class="hero-heading" id="title"></h1>
+          <p id="desc"></p>
+        </div>
+
+      </div>
+    </div>  
+  </div>
+  <!-- Loding -->
+  {{>loding}}
+  <!-- Loding End -->
+  {{>script}}
+  <script src='/js2/checkToken.js'></script>
+  <script src='/js2/diary.js'></script>  
+</body>
+</html>
