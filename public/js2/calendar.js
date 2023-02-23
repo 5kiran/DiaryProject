@@ -37,17 +37,47 @@
         console.log(obj);
       },
       select: function (arg) {
-        // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-        let title = prompt('Event Title:');
-        if (title) {
-          calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay,
-            color: 'purple',
+        // prompt
+        (async () => {
+          const { value: title } = await Swal.fire({
+            title: '무엇을 하시나요?',
+            input: 'text',
+            inputPlaceholder: 'ex) 일본 여행',
           });
-        }
+          // prompt
+
+          // 이후 처리되는 내용.
+          // confirm
+          Swal.fire({
+            title: `${title}을 일정에 추가하시겠습니까?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소',
+            reverseButtons: false, // 버튼 순서 거꾸로
+            
+          }).then((result) => {
+            if (result.isConfirmed) {
+              if (title) {
+                if (title) {
+                  calendar.addEvent({
+                    title: title,
+                    start: arg.start,
+                    end: arg.end,
+                    allDay: arg.allDay,
+                    color: 'purple',
+                  });
+                }
+              }
+              Swal.fire(
+                `${title}을 일정에 추가하였습니다.`,
+              )
+            }
+          })
+        })();
+        // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
         calendar.unselect();
       },
       // 이벤트
@@ -68,7 +98,7 @@
                   start: `${el.createdAt}`,
                   allDay: `${el.createdAt.allDay}`,
                   color: 'hotPink',
-                  url : `/diary?id=${el.id}`
+                  url: `/diary?id=${el.id}`,
                 });
               } else {
                 events.push({
@@ -76,15 +106,15 @@
                   start: `${el.createdAt}`,
                   allDay: `${el.createdAt}`,
                   color: 'skyblue',
-                  url : `/diary?id=${el.id}`
+                  url: `/diary?id=${el.id}`,
                 });
               }
             });
             success(events);
           },
           error: function (error) {
-            if(error.status === 401) {
-              return window.location.replace('/login')
+            if (error.status === 401) {
+              return window.location.replace('/login');
             }
           },
         });
