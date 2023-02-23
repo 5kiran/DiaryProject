@@ -62,7 +62,6 @@
           success: function (response) {
             let events = [];
             response.forEach((el) => {
-              console.log(el)
               if (el.writeName === '모찌') {
                 events.push({
                   title: `📝${el.title}`,

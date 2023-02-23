@@ -1,5 +1,3 @@
-const { async } = require("rxjs");
-
 function writeDiary() {
   const date = document.getElementById('date').value + ''
   const title = document.getElementById('title').value;

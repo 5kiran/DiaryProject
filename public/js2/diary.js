@@ -18,7 +18,7 @@ function getDiary() {
       document.getElementById('desc').innerHTML = response.content
     },
     error: function (error) {
-      // window.location.replace('/login');
+      window.location.replace('/login');
       console.log(error)
     },
   });

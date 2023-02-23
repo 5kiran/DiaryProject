@@ -17,7 +17,7 @@
     <meta name='description' content='' />
     <meta name='keywords' content='free template, bootstrap, bootstrap4' />
     {{>link}}
-    <title>모찌랑 만두랑</title>
+    <title>모찌랑 만두</title>
   </head>
   <body>
     <div class='lines-wrap'>
@@ -43,23 +43,28 @@
     <!-- .accordion-item -->
     <div class='container pb-5 mb-5 border-bottom'>
       <div class='login-box'>
-        <form id='writeD'>
+        <form id='writeD' enctype="multipart/form-data">
           <div class='form-group'>
             <label for='date'>DATE</label>
             <input type='date' id='date' name='date' class='form-control' /><br
             /><br />
             <label class='text-black' for='file'>FILE</label>
-            <input type='file' class='form-control' id='FILE' />
+            <input type='file' class='form-control' id='file' />
           </div>
         </form>
         <button type='submit' class='btn btn-primary' onclick='writeDiary()'>Add
           Picture</button>
       </div>
     </div>
+    <!-- footer -->
+    {{>footer}}
+    <!-- footer End-->
     <!-- Loding -->
     {{>loding}}
     <!-- Loding End -->
+    <!-- Loding -->
     {{>script}}
+    <!-- Loding End-->
     <script src='./js2/addPicture.js'></script>
     <script src='./js2/checkToken.js'></script>
   </body>
