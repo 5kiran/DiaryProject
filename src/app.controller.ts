@@ -19,7 +19,7 @@ export class AppController {
   @Get('calendar')
   @Render('calendar')
   calendar() {}
-
+z
   @Get('diary')
   @Render('diary')
   diary() {

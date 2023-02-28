@@ -5,6 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create.board.dto';
 import { getAllBoards } from './interface/get.all.board';
+import { GetAllBoardsDto } from './dto/get.all.board.dto';
 
 @Controller('boards')
 export class BoardsController {
@@ -12,7 +13,7 @@ export class BoardsController {
 
   @Get('all/:start/:end')
   @UseGuards(AuthGuard())
-  async getAllBoards(@Param() data): Promise<getAllBoards[]> {
+  async getAllBoards(@Param() data: GetAllBoardsDto): Promise<getAllBoards[]> {
     return await this.boardsService.getAllBoards(data);
   }
 
@@ -25,8 +26,8 @@ export class BoardsController {
 
   @Get('detail/:id')
   @UseGuards(AuthGuard())
-  async getOneBoard(@Param('id') id : number){
-    const article = await this.boardsService.getOneBoard(id)
-    return article
+  async getOneBoard(@Param('id') id: number) {
+    const article = await this.boardsService.getOneBoard(id);
+    return article;
   }
 }

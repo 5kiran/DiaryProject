@@ -25,8 +25,20 @@
       timeZone: 'local', // 시간설정 'local' 가능!
       eventAdd: function (obj) {
         // 이벤트가 추가되면 발생하는 이벤트
-        console.log(obj);
-        console.log(obj.event.start);
+        const title = obj.event.title;
+        const start = obj.event.startStr;
+        const end = obj.event.endStr;
+
+        $.ajax({
+          type: 'POST',
+          url: `/api/calendar`,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          data: { title, start, end },
+          success: async function (response) {},
+          error: function (error) {},
+        });
       },
       eventChange: function (obj) {
         // 이벤트가 수정되면 발생하는 이벤트
@@ -57,7 +69,6 @@
             confirmButtonText: '승인',
             cancelButtonText: '취소',
             reverseButtons: false, // 버튼 순서 거꾸로
-            
           }).then((result) => {
             if (result.isConfirmed) {
               if (title) {
@@ -71,11 +82,9 @@
                   });
                 }
               }
-              Swal.fire(
-                `${title}을 일정에 추가하였습니다.`,
-              )
+              Swal.fire(`${title}을 일정에 추가하였습니다.`);
             }
-          })
+          });
         })();
         // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
         calendar.unselect();
@@ -110,6 +119,8 @@
                 });
               }
             });
+            const schedule = getCal(info.startStr, info.endStr);
+            console.log(schedule);
             success(events);
           },
           error: function (error) {
@@ -124,3 +135,18 @@
     calendar.render();
   });
 })();
+
+function getCal(startStr, endStr) {
+  $.ajax({
+    type: 'GET',
+    url: `/api/calendar/${startStr}/${endStr}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    data: {},
+    success: function (response) {
+      schedule = 'a'
+    },
+    error: function (error) {},
+  });
+}
