@@ -1,7 +1,6 @@
 import { Body, Controller } from '@nestjs/common';
 import { Post } from '@nestjs/common/decorators';
 import { CreateUserDto } from './dto/create.user.dto';
-import { UserNameValidationPipe } from './pipes/user.name.validation.pipe';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -11,7 +10,7 @@ export class UsersController {
   // 회원가입 API
   @Post('/auth/signup')
   async createUser(
-    @Body(UserNameValidationPipe) data: CreateUserDto,
+    @Body() data: CreateUserDto,
   ): Promise<string> {
     return await this.usersService.createUser(data);
   }
