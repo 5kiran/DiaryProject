@@ -24,9 +24,9 @@ export class UsersService {
   }
   async createUser(data: CreateUserDto): Promise<string> {
     const findUser = await this.findUser(data.name);
-    if (findUser) {
-      throw new ConflictException('너 누구니?');
-    }
+    // if (findUser) {
+    //   throw new ConflictException('너 누구니?');
+    // }
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(data.password, salt);
     this.usersRepository.insert({
