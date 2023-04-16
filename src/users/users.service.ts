@@ -15,18 +15,19 @@ export class UsersService {
   constructor(
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
-    private jwtService : JwtService
+    private jwtService: JwtService,
   ) {}
 
   async findUser(name) {
     const findUser = await this.usersRepository.findOne({ where: { name } });
     return findUser;
   }
+
   async createUser(data: CreateUserDto): Promise<string> {
-    const findUser = await this.findUser(data.name);
-    // if (findUser) {
-    //   throw new ConflictException('너 누구니?');
-    // }
+    const findUser = await this.findUser(data.email);
+    if (findUser) {
+      throw new ConflictException('이미 존재하는 email 입니다.');
+    }
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(data.password, salt);
     this.usersRepository.insert({
@@ -44,8 +45,8 @@ export class UsersService {
     if (!(await bcrypt.compare(data.password, findUser.password))) {
       throw new UnauthorizedException('Login Failed');
     }
-    const payload : JwtPayload = { name : data.name }
-    const accessToken = await this.jwtService.sign(payload)
+    const payload: JwtPayload = { name: data.name };
+    const accessToken = await this.jwtService.sign(payload);
     return { accessToken };
   }
 }
