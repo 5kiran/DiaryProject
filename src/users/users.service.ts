@@ -9,6 +9,7 @@ import * as bcrypt from 'bcryptjs';
 import { UnauthorizedException } from '@nestjs/common/exceptions/unauthorized.exception';
 import { JwtService } from '@nestjs/jwt/dist';
 import { JwtPayload } from './interface/jwt.payload';
+import { LoginUserDto } from './dto/login.user.dto';
 
 @Injectable()
 export class UsersService {
@@ -18,8 +19,8 @@ export class UsersService {
     private jwtService: JwtService,
   ) {}
 
-  async findUser(name) {
-    const findUser = await this.usersRepository.findOne({ where: { name } });
+  async findUser(email) {
+    const findUser = await this.usersRepository.findOne({ where: { email } });
     return findUser;
   }
 
@@ -37,16 +38,22 @@ export class UsersService {
     return '가입 성공';
   }
 
-  async login(data: CreateUserDto) {
-    const findUser = await this.findUser(data.name);
+  async login(data: LoginUserDto) {
+    const findUser = await this.findUser(data.email);
     if (!findUser) {
-      throw new NotFoundException('존재하지 않는 name입니다.');
+      throw new NotFoundException('존재하지 않는 email입니다.');
     }
     if (!(await bcrypt.compare(data.password, findUser.password))) {
-      throw new UnauthorizedException('Login Failed');
+      throw new UnauthorizedException('비밀번호가 일치하지 않습니다.');
     }
-    const payload: JwtPayload = { name: data.name };
+    const accessToken = this.createAccessToken(findUser.id, findUser.email);
+    return accessToken;
+  }
+
+  async createAccessToken(id, email) {
+    const payload: JwtPayload = { id, email };
     const accessToken = await this.jwtService.sign(payload);
+
     return { accessToken };
   }
 }
