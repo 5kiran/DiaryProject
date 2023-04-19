@@ -24,18 +24,20 @@ export class UsersService {
     return findUser;
   }
 
-  async createUser(data: CreateUserDto): Promise<string> {
+  async createUser(data: CreateUserDto) {
     const findUser = await this.findUser(data.email);
     if (findUser) {
       throw new ConflictException('이미 존재하는 email 입니다.');
     }
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(data.password, salt);
-    this.usersRepository.insert({
+    const user = await this.usersRepository.save({
       name: data.name,
       password: hashedPassword,
     });
-    return '가입 성공';
+
+    const accessToken = this.createAccessToken(user.id, user.email);
+    return accessToken;
   }
 
   async login(data: LoginUserDto) {
