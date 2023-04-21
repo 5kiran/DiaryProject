@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "./Users";
 
 @Entity()
 export class Boards {
@@ -23,6 +24,6 @@ export class Boards {
   @DeleteDateColumn()
   deletedAt: Date|null
 
-  @Column()
-  writeName : string
+  @ManyToOne(() => User, (user) => user.boards)
+  user : User
 }

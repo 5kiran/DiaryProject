@@ -1,8 +1,9 @@
 import { IsEmail } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Boards } from './Boards';
 
 @Entity()
-export class Users {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,4 +18,7 @@ export class Users {
 
   @Column()
   sex: boolean;
+
+  @OneToMany(() => Boards, (boards) => boards.user)
+  boards : Boards
 }
