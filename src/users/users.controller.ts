@@ -11,7 +11,7 @@ export class UsersController {
   @Post('/auth/signup')
   async createUser(
     @Body() data: CreateUserDto,
-  ): Promise<string> {
+  ): Promise<object> {
     return await this.usersService.createUser(data);
   }
 
