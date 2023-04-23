@@ -101,23 +101,13 @@
           success: function (response) {
             let events = [];
             response.forEach((el) => {
-              if (el.writeName === '모찌') {
-                events.push({
-                  title: `📝${el.title}`,
-                  start: `${el.createdAt}`,
-                  allDay: `${el.createdAt.allDay}`,
-                  color: 'hotPink',
-                  url: `/diary?id=${el.id}`,
-                });
-              } else {
-                events.push({
-                  title: `📝${el.title}`,
-                  start: `${el.createdAt}`,
-                  allDay: `${el.createdAt}`,
-                  color: 'skyblue',
-                  url: `/diary?id=${el.id}`,
-                });
-              }
+              events.push({
+                title: `📝${el.title}`,
+                start: `${el.createdAt}`,
+                allDay: `${el.createdAt.allDay}`,
+                color: 'hotPink',
+                url: `/diary?id=${el.id}`,
+              });
             });
             const schedule = getCal(info.startStr, info.endStr);
             console.log(schedule);
