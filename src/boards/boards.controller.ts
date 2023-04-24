@@ -20,8 +20,8 @@ export class BoardsController {
   @Post()
   @UseGuards(AuthGuard())
   createBoard(@Req() req, @Body() data: CreateBoardDto): void {
-    const userName = req.user.name;
-    this.boardsService.createBoard(userName, data);
+    const userId = req.user.id;
+    this.boardsService.createBoard(userId, data);
   }
 
   @Get('detail/:id')

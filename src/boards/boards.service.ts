@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Boards } from 'src/entities/Boards';
 import { Between, Repository } from 'typeorm';
 import { CreateBoardDto } from './dto/create.board.dto';
-import { GetAllBoardsDto } from './dto/get.all.board.dto';
 import { getAllBoards } from './interface/get.all.board';
 
 @Injectable()
@@ -20,7 +19,7 @@ export class BoardsService {
       where: {
         createdAt: Between(start, end),
       },
-      select: ['id', 'title', 'createdAt', 'writeName'],
+      select: ['id', 'title', 'createdAt'],
     });
     if (!boards) {
       throw new NotFoundException();
@@ -28,13 +27,13 @@ export class BoardsService {
     return boards;
   }
 
-  createBoard(userName, data: CreateBoardDto) {
+  createBoard(userId, data: CreateBoardDto) {
     if (!data.createdAt) {
       this.boardsRepository.insert({
         title: data.title,
         content: data.content,
         image: data.image,
-        writeName: userName,
+        user: userId,
       });
       return;
     }
@@ -42,7 +41,7 @@ export class BoardsService {
       title: data.title,
       content: data.content,
       image: data.image,
-      writeName: userName,
+      user: userId,
       createdAt: data.createdAt,
     });
   }
